@@ -1,10 +1,9 @@
 understanding_ml
-===============
+================
 
 Lectures and exercises of my course **Understanding Machine Learning** at the Karlsruhe Institute of Technology.
 
 There are 9 lectures and 4 exercise sheets.
-
 
 abstract
 --------
