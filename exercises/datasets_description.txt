@@ -7,7 +7,7 @@ test.gzip
 Can be considered as future data and is meant to be predicted out-of-sample (i.e., aim is to achieve generalization in the training).
 
 test_results.gzip
-Contains the actual values to be predicted from test.gzip. Only meant for model evaluation and must not be used in the training or prediction processes.
+Contains the actual values to be predicted from test.gzip. Only meant for model evaluation and must not be used in the training or prediction processes. Exception is a dynamic prediction setup with a sliding window over the test data set, correponding to identical forecast horizons (see also exercise sheets).
 
 All three are gzipped parquet files, which can be opened, e.g., with the pandas function read_parquet (needs pyarrow to be installed).
 
