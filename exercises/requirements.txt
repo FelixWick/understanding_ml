@@ -1,9 +1,9 @@
 numpy
-pandas
+pandas>=1.5.0
 ipython
 matplotlib
 seaborn
-pyarrow
+pyarrow>=10.0.0
 scikit-learn
 xgboost
 lime
