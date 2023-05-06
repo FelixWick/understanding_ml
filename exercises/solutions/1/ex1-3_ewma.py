@@ -174,9 +174,9 @@ def horizon_forecast(df_train, df_test, horizon):
 
 
 def main(args):
-    df_train = pd.read_parquet("../train.parquet.gzip")
-    df_test = pd.read_parquet("../test.parquet.gzip")
-    df_test_results = pd.read_parquet("../test_results.parquet.gzip")
+    df_train = pd.read_parquet("../../train.parquet.gzip")
+    df_test = pd.read_parquet("../../test.parquet.gzip")
+    df_test_results = pd.read_parquet("../../test_results.parquet.gzip")
     df_test = df_test.merge(df_test_results, how='inner', on=['P_ID', 'L_ID', 'DATE'])
 
     # exercise 1

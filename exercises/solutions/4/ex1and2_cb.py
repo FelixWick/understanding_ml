@@ -425,9 +425,9 @@ def evaluate_quantile(X, quantile):
 def main(args):
     np.random.seed(42)
 
-    df_train = pd.read_parquet("../train.parquet.gzip")
-    df_test = pd.read_parquet("../test.parquet.gzip")
-    df_test_results = pd.read_parquet("../test_results.parquet.gzip")
+    df_train = pd.read_parquet("../../train.parquet.gzip")
+    df_test = pd.read_parquet("../../test.parquet.gzip")
+    df_test_results = pd.read_parquet("../../test_results.parquet.gzip")
     df_test = df_test.merge(df_test_results, how='inner', on=['P_ID', 'L_ID', 'DATE'])
     df = pd.concat([df_train, df_test], ignore_index=True)
 

@@ -215,9 +215,9 @@ def get_data(train_ds, valid_ds, bs):
 
 def main(args):
     if args[0]=='prepro':
-        df_train = pd.read_parquet("../train.parquet.gzip")
-        df_test = pd.read_parquet("../test.parquet.gzip")
-        df_test_results = pd.read_parquet("../test_results.parquet.gzip")
+        df_train = pd.read_parquet("../../train.parquet.gzip")
+        df_test = pd.read_parquet("../../test.parquet.gzip")
+        df_test_results = pd.read_parquet("../../test_results.parquet.gzip")
         df_test = df_test.merge(df_test_results, how='inner', on=['P_ID', 'L_ID', 'DATE'])
         df = pd.concat([df_train, df_test], ignore_index=True)
         X1_train, X2_train, X3_train, X4_train, X5_train, X6_train, X7_train, y_train, X1_test, X2_test, X3_test, X4_test, X5_test, X6_test, X7_test, y_test = prepare_data(df)
@@ -259,17 +259,23 @@ def main(args):
 
     torch.manual_seed(3)
 
+    if torch.cuda.is_available():
+        dev = "cuda:0"
+    else:
+        dev = "cpu"
+    device = torch.device(dev)
+
     # train_target = torch.tensor(y_train.astype(np.float32))
-    train_target = torch.tensor(y_train[:, 6].astype(np.float32)).unsqueeze(1)
+    train_target = torch.tensor(y_train[:, 6].astype(np.float32)).unsqueeze(1).to(device)
 
     # test_target = torch.tensor(y_test.astype(np.float32))
-    test_target = torch.tensor(y_test[:, 6].astype(np.float32)).unsqueeze(1)
+    test_target = torch.tensor(y_test[:, 6].astype(np.float32)).unsqueeze(1).to(device)
 
     X_train = np.stack([X1_train, X2_train, X3_train, X4_train, X5_train, X6_train, X7_train], axis=1)
-    train = torch.tensor(X_train.astype(np.float32))
+    train = torch.tensor(X_train.astype(np.float32)).to(device)
 
     X_test = np.stack([X1_test, X2_test, X3_test, X4_test, X5_test, X6_test, X7_test], axis=1)
-    test = torch.tensor(X_test.astype(np.float32))
+    test = torch.tensor(X_test.astype(np.float32)).to(device)
 
     train_ds = TensorDataset(train, train_target)
     test_ds = TensorDataset(test, test_target)
@@ -278,17 +284,18 @@ def main(args):
     train_dl, valid_dl = get_data(train_ds, test_ds, mini_batch_size)
 
     model, optimizer = get_model()
+    model = model.to(device)
 
     epochs = 20
     trained_model = fit(epochs, model, optimizer, train_dl, valid_dl)
 
     # in-sample
-    train_preds = trained_model(train_ds[:][0]).detach().numpy().flatten()
+    train_preds = trained_model(train_ds[:][0]).cpu().detach().numpy().flatten()
     # eval_results(train_preds, y_train.flatten())
     eval_results(train_preds, y_train[:, 6])
 
     # out-of-sample
-    test_preds = trained_model(test_ds[:][0]).detach().numpy().flatten()
+    test_preds = trained_model(test_ds[:][0]).cpu().detach().numpy().flatten()
     # eval_results(test_preds, y_test.flatten())
     eval_results(test_preds, y_test[:, 6])
 
