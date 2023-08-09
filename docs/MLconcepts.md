@@ -12,7 +12,7 @@ Most ML algorithms (not only supervised, but also unsupervised and reinforcement
 
 ## Manifold Hypothesis
 
-Generalization in high dimensions (models with many features) usually amounts to extrapolation (curse of dimensionality). But fortunately, reality is friendly: Most high-dimensional data sets arguably reside on lower-dimensional manifolds, what enables the effectiveness of empirical risk minimization (intrapolation).
+Generalization in high dimensions (models with many features) usually amounts to extrapolation (curse of dimensionality). But fortunately, reality is friendly: Most high-dimensional data sets arguably reside on lower-dimensional manifolds, what enables the effectiveness of empirical risk minimization (interpolation).
 
 ## Inductive Bias
 
