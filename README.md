@@ -31,6 +31,5 @@ overarching theme: demand forecasting
 
 1. linear models
 2. tree-based methods
-3. sequence models
-4. PDF predictions
-
+3. deep learning
+4. quantile predictions and causality
